@@ -5,32 +5,55 @@
 #require_relative "../script"
 require_relative "../enemy"
 require_relative "../classes"
+require_relative "../players"
 
 describe Character do
-    it "Should return the player class" do
+    # it "Should return the player class" do
+    #     playerClass = "Ninja"
+    #     health = 20
+    #     strength = 6
+    #     classes = Character.new(playerClass, health, strength)
+    #     expect(classes.).to eq(playerClass)
+    # end
+    it "Should return the player's health" do
         playerClass = "Ninja"
         health = 20
         strength = 6
-        classes = Character.new
-        classes.addClass(playerClass, health, strength)
-        expect(classes.getClass(playerClass)).to eq(playerClass)
+        classes = Character.new(playerClass, health, strength)
+        expect(classes.health).to eq(health)        
     end
-
-    it "get the health of the player character chosen" do
-        playerClass = ""
+    it "Should return the strength of the player" do
+        playerClass = "Ninja"
         health = 20
         strength = 6
-        classes = Character.new
-        classes.addClass(playerClass, health, strength)
-        expect(classes.getHealth(health)).to eq(health)        
+        classes = Character.new(playerClass, health, strength)
+        expect(classes.strength).to eq(strength)
     end
+end
 
-    it "Should return the strength of the player character" do
-        playerClass = ""
+describe Player do
+    it "Should be able to get the character's health" do
+        playerClass = "Ninja"
         health = 20
         strength = 6
-        classes = Character.new
-        classes.addClass(playerClass, health, strength)
-        expect(classes.getStrength(strength)).to eq(strength)
+        players = Player.new
+        players.addPlayer(playerClass, health, strength)
+        expect(players.getPlayerHealth(playerClass)).to eq(health)
+    end
+    it "Should be able to get the character's strength" do
+        playerClass = "Ninja"
+        health = 20
+        strength = 6
+        players = Player.new
+        players.addPlayer(playerClass, health, strength)
+        expect(players.getPlayerStrength(playerClass)).to eq(strength)
+    end    
+    it "should be able to add a player" do
+        playerClass = "Ninja"
+        health = 20
+        strength = 6
+        players = Player.new
+        players.addPlayer(playerClass, health,strength)
+        expect(players.getPlayer().length).to be(1)
     end
 end
