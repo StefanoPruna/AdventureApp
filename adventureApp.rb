@@ -4,6 +4,8 @@ require "artii"
 
 require_relative "script"
 
+
+
 name = ARGV[0]
 
 @prompt = TTY::Prompt.new
