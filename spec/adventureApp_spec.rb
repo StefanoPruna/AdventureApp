@@ -135,7 +135,15 @@ describe Rewards do
 end
 
 describe Script do
-    it "Should print a welcome method" do
+    # it "Should print a welcome method" do
+    #     title = "Fantasy Adventure"
+    #     classAvailable = {}
+    #     monsters = {}
+    #     monsterAvailable = {}
+    #     story = Script.new(title, classAvailable, monsterAvailable, monsters)
+    #     expect(story.title).to eq(title)
+    # end
+    it "Should define a start method" do
         title = "Fantasy Adventure"
         classAvailable = {Ninja: [health=20, strength=6], Warrior: [health=10, strength=12], Wizard: [health=14, strength=8]}
         monsters = {}
@@ -148,18 +156,24 @@ describe Script do
         classAvailable = {Ninja: [health=20, strength=6], Warrior: [health=10, strength=12], Wizard: [health=14, strength=8]}
         monsters = {}
         monsterAvailable = {Goblin: [healthEnemy=8, damage=5], Skeleton: [healthEnemy=6, damage=4], CosmicChest: [healthEnemy=4, damage=4], Orc: [healthEnemy=6, damage=7], ViscidSnake: [healthEnemy=10, damage=10]}
-        story = Script.new(title, classAvailable, monsterAvailable, monsters)
+        story = Script.new(title, classAvailable, monsterAvailable, monsters, )
         item = "coins"
         quantity = 1
         story.addToInventory(item, quantity)
         expect(story.getReward().getItem.length).to be(1)
     end
-    it "Should print the story" do
-        title = "Fantasy Adventure"
-        classAvailable = {Ninja: [health=20, strength=6], Warrior: [health=10, strength=12], Wizard: [health=14, strength=8]}
-        monsters = {}
-        monsterAvailable = {Goblin: [healthEnemy=8, damage=5], Skeleton: [healthEnemy=6, damage=4], CosmicChest: [healthEnemy=4, damage=4], Orc: [healthEnemy=6, damage=7], ViscidSnake: [healthEnemy=10, damage=10]}
-        story = Script.new(title, classAvailable, monsterAvailable, monsters)
-        expect(story.printScript()).to eq(nil)
-    end
+    # it "Should print the story" do
+    #     title = "Fantasy Adventure"
+    #     classAvailable = {Ninja: [health=20, strength=6], Warrior: [health=10, strength=12], Wizard: [health=14, strength=8]}
+    #     monsters = {}
+    #     monsterAvailable = {Goblin: [healthEnemy=8, damage=5], Skeleton: [healthEnemy=6, damage=4], CosmicChest: [healthEnemy=4, damage=4], Orc: [healthEnemy=6, damage=7], ViscidSnake: [healthEnemy=10, damage=10]}
+    #     story = Script.new(title, classAvailable, monsterAvailable, monsters)
+    #     expect(story.printScript).to eq(nil)
+    # end
+    # it "Should calculate the coins total" do
+    #     item = "Inventory"
+    #     rewardItem = {"Coins" => 1, "Potions" => 1}
+    #     inventory = Script.new(name, quantity)
+
 end
+
