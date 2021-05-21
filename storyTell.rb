@@ -3,10 +3,9 @@ require_relative "./script"
 # tell = Script.new("Fantasy Story", "Goblin", "Ninja", "Goblin")
 
 # tell.welcome
-health = 0
-strength = 0
-coins = 0
-potion = 0
+
+inventory = {:coins => 0, :potion => 0}
+
 Enemy = {Goblin: [healthEnemy=8, damage=5], 
           Skeleton: [healthEnemy=6, damage=4], 
           CosmicChest: [healthEnemy=4, damage=4], 
@@ -22,22 +21,30 @@ while (isClassRight == false) do
     puts "Hello #{playerName}, choose your class (Ninja: health=20, strength=6; Warrior: Health=10, strength=12; Wizard: health=14, strength=8):"
     playerClass = gets.chomp
     if playerClass == "Ninja" || playerClass == "ninja"
-        health = 20
-        strength = 6
+        classAttribute = {:health => 20, :strength => 6}
         isClassRight = true
     elsif playerClass == "Warrior" || playerClass == "warrior"
-        health = 10
-        strength = 6
+        classAttribute = {:health => 10, :strength => 6}
         isClassRight = true
     elsif playerClass == "Wizard" || playerClass == "wizard"
-        health = 14
-        strength = 8
+        classAttribute = {:health => 14, :strength => 8}
         isClassRight = true
     else
         puts "Sorry, but the #{playerClass} class will be available in the sequel...when I will make it!"    
     end
 end
 puts "Nice choice #{playerName}, you look scary for a #{playerClass}!!, I hope you are ready for the adventure!"
+
+#This function is called after the end of the battle
+def drinkPotion(health, potion)
+    puts "Your health is: #{health}; would you like to drink the potion of health? Yes / No"
+    drinkChoice = gets.chomp
+    if drinkChoice == "yes" || drinkChoice == "Yes"
+        health += 4
+        potion -= 1
+        puts "Your health now is #{health} and you have #{potion} potion/s"
+    end
+end
 
 #This function is called when the player wants to exit the adventure
 def exitTheGame
@@ -49,9 +56,7 @@ def exitTheGame
 end
 
 #This function is called when the player chooses to fight!
-def fightGoblin(health, strength)
-    coins = 0
-    potion = 0
+def fightGoblin(health, strength, coins, potion)
     while (true) do
         # throw a dice to check if the player catches the monster 1 out of 15
         dice = (rand() * 15).to_i
@@ -59,18 +64,23 @@ def fightGoblin(health, strength)
         #if the random number is equal or higher than 9, then the goblin reduced his health equal the strength of the player
         if dice >= 9
             Enemy[:Goblin][0] -= strength
-            puts "You attack the Goblin sucessfully and damage #{strength} to him!"
+            puts "You attacked the Goblin sucessfully and damage #{strength} to him!"
             if Enemy[:Goblin][0] <= 0 #the monster dies if reaches 0 or less
                 puts "You survive the battle with the Goblin!. Here is a potion of health +4 and 10 Gold coins!!"
                 coins += 10
                 potion += 1
-                puts "Your health is: #{health}"
+                puts "Your health is: #{health}, you have #{coins} coins and #{potion} potion/s"
+                drinkPotion(health, potion)
                 break
             end
         #if the dice is less than 9, the player will get damaged - the monster's damage
         else
             health -= 5
             puts "The Goblin managed to hit you! your health is #{health}"
+            if potion > 0
+                drinkPotion(health, potion)
+                break
+            end
             if health <= 0
                 puts "I'm so sorry to tell you, but you are basically, how do I say...YOU ARE DEAD!!!"
                 puts "Would you like to try again? Yes / No"
@@ -78,7 +88,7 @@ def fightGoblin(health, strength)
                 if playerFinish == "No" || playerFinish == "no"
                     exitTheGame
                 else
-                    fightGoblin(strength, health)
+                    fightGoblin(health, strength, coins, potion)
                 end
             end
         end
@@ -93,6 +103,7 @@ def runFromGoblin(strength)
         health -= 5
         puts "The Goblin was able to catch you while you were running, you get 5 point damage!"
         puts "Your health is: #{health}"
+        drinkPotion(classAttribute[:health], inventory[:potion])
         if health <= 0
             puts "I'm so sorry to tell you, but you are basically, how do I say...YOU ARE DEAD!!!"
             puts "Would you like to try again? Yes / No"
@@ -100,7 +111,7 @@ def runFromGoblin(strength)
             if playerFinish == "No" || playerFinish == "no"
                 exitTheGame
             else
-                fightGoblin(strength, health)
+                fightGoblin(classAttribute[:health], classAttribute[:strength], inventory[:coins], inventory[:potion])
             end
         end
     else
@@ -131,31 +142,28 @@ while (true) do
                 puts "What do you do? Fight or Run?"
                 playerSecondChoice = gets.chomp
                 if playerSecondChoice == "Fight" || playerSecondChoice == "fight"
-                    fightGoblin(strength, health)
+                    fightGoblin(classAttribute[:health], classAttribute[:strength], inventory[:coins], inventory[:potion])
+                    break
                 else
-                    runFromGoblin(strength)
+                    runFromGoblin(classAttribute[:strength])
+                    break
                 end
             elsif playerChoice == "Right" || playerChoice == "right" #chose to go right
                 puts "A Goblin is approaching you, he is in attack mode!"
                 puts "What do you do? Fight or Run?"
                 playerSecondChoice = gets.chomp
                 if playerSecondChoice == "Fight" || playerSecondChoice == "fight"
-                    fightGoblin(strength, health)
+                    fightGoblin(classAttribute[:strength], classAttribute[:health], inventory[:coins], inventory[:potion])
+                    break
                 elsif playerSecondChoice == "Run" || playerSecondChoice == "run"
-                    runFromGoblin(playerClass)
+                    runFromGoblin(classAttribute[:strength])
+                    break
                 else
                     puts "You chose the wrong path, try again!"
                 end
             else
                 puts "You chose the wrong path, try again!"
-            end   
-                puts "Your health is: #{health}; would you like to drink the potion of health? Yes / No"
-                drinkChoice = gets.chomp
-                if drinkChoice == "yes" || drinkChoice == "Yes"
-                    health += 4
-                    potion -= 1
-                end
-                break
+            end                   
 end
 
 #Continue of the story
