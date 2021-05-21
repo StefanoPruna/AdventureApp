@@ -2,11 +2,12 @@
 # require "tty-spinner"
 # require "artii"
 
-#require_relative "../script"
+require_relative "../script"
 require_relative "../enemy"
 require_relative "../monsters"
 require_relative "../classes"
 require_relative "../players"
+require_relative "../reward"
 
 describe Character do
     # it "Should return the player class" do
@@ -100,5 +101,65 @@ describe Monster do
         enemy = Monster.new
         enemy.addMonster(monster, healthEnemy, damage)
         expect(enemy.getMonster().length).to be(1)
+    end
+end
+
+describe Rewards do
+    it "Should update the coins quantity" do
+        reward = Rewards.new
+        name = "coins"
+        quantity = 1
+        quantityAdded = 10
+        reward.addItem(name, quantity)
+        reward.addItem(name, quantityAdded)
+        expect(reward.getItem()[name]).to be(quantity+quantityAdded)
+    end
+    it "should update the potions when used" do
+        reward = Rewards.new
+        name = "potion"
+        quantityPotion = 1
+        potionAdded = 1
+        reward.addPotion(name, quantityPotion)
+        reward.addPotion(name, potionAdded)
+        expect(reward.getPtion()[name]).to be(quantityPotion+potionAdded)
+    end
+    # it "should update the potions when used" do
+    #     reward = Rewards.new
+    #     name = "potion"
+    #     quantityPotion = quantityPotion
+    #     potionReduced = 1
+    #     reward.takeItem(name, quantityPotion)
+    #     reward.takeItem(name, potionReduced)
+    #     expect(reward.getPtion()[name]).to be(quantityPotion-potionReduced)
+    # end
+end
+
+describe Script do
+    it "Should print a welcome method" do
+        title = "Fantasy Adventure"
+        classAvailable = {Ninja: [health=20, strength=6], Warrior: [health=10, strength=12], Wizard: [health=14, strength=8]}
+        monsters = {}
+        monsterAvailable = {Goblin: [healthEnemy=8, damage=5], Skeleton: [healthEnemy=6, damage=4], CosmicChest: [healthEnemy=4, damage=4], Orc: [healthEnemy=6, damage=7], ViscidSnake: [healthEnemy=10, damage=10]}
+        story = Script.new(title, classAvailable, monsterAvailable, monsters)
+        expect(story.welcome).to eq(nil)
+    end
+    it "Should update the reward items" do
+        title = "Fantasy Adventure"
+        classAvailable = {Ninja: [health=20, strength=6], Warrior: [health=10, strength=12], Wizard: [health=14, strength=8]}
+        monsters = {}
+        monsterAvailable = {Goblin: [healthEnemy=8, damage=5], Skeleton: [healthEnemy=6, damage=4], CosmicChest: [healthEnemy=4, damage=4], Orc: [healthEnemy=6, damage=7], ViscidSnake: [healthEnemy=10, damage=10]}
+        story = Script.new(title, classAvailable, monsterAvailable, monsters)
+        item = "coins"
+        quantity = 1
+        story.addToInventory(item, quantity)
+        expect(story.getReward().getItem.length).to be(1)
+    end
+    it "Should print the story" do
+        title = "Fantasy Adventure"
+        classAvailable = {Ninja: [health=20, strength=6], Warrior: [health=10, strength=12], Wizard: [health=14, strength=8]}
+        monsters = {}
+        monsterAvailable = {Goblin: [healthEnemy=8, damage=5], Skeleton: [healthEnemy=6, damage=4], CosmicChest: [healthEnemy=4, damage=4], Orc: [healthEnemy=6, damage=7], ViscidSnake: [healthEnemy=10, damage=10]}
+        story = Script.new(title, classAvailable, monsterAvailable, monsters)
+        expect(story.printScript()).to eq(nil)
     end
 end

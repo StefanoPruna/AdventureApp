@@ -25,3 +25,5 @@ class Player
     end
 end
 
+players = Player.new
+players.addPlayer("Warrior", 10, 12)
