@@ -49,7 +49,7 @@ def partOne(health, strength, coins, potion)
                         fightGoblin(health, strength, coins, potion)
                         break
                     elsif playerSecondChoice == "Run" || playerSecondChoice == "run"
-                        runFromMonster(health, strength, potion, "zoneOne")
+                        runFromMonster(health, strength, coins, potion, "zoneOne")
                         break
                     else #If player doesn't choose neither run nor fight
                         puts "You can only fight or run..."
@@ -62,7 +62,7 @@ def partOne(health, strength, coins, potion)
                         fightGoblin(health, strength, coins, potion)
                         break
                     elsif playerSecondChoice == "Run" || playerSecondChoice == "run"
-                        runFromMonster(health, strength, potion, "zoneOne")
+                        runFromMonster(health, strength, coins, potion, "zoneOne")
                         break
                     else #If player doesn't choose neither run nor fight
                         puts "You can only fight or run..."
@@ -75,12 +75,12 @@ end
 
 #Continue of the story
 def partTwo(health, strength, coins, potion)
-    zone = "zoneTwo"
-    puts "Now you can keep going to the dungeoun. You encounter another intersection now, where do you want to go? Up, Down, or go Back?"           
+    zone = "zoneTwo"   
+    #drinkPotion(health, strength, coins, potion, "zoneTwo")        
     while (true) do
-        puts "Once inside of the tower, you have a fork, where do you go? Left, Right"
+        puts "Now you can keep going to the dungeoun. You encounter another intersection now, where do you want to go? Up, Down, or go Back?"
                 playerChoice = gets.chomp
-                if playerChoice == "Left" || playerChoice == "left"
+                if playerChoice == "Up" || playerChoice == "up"
                     puts "A Goblin is approaching you, he is in attack mode!"
                     puts "What do you do? Fight or Run?"
                     playerSecondChoice = gets.chomp
@@ -88,12 +88,12 @@ def partTwo(health, strength, coins, potion)
                         fightGoblin(health, strength, coins, potion)
                         break
                     elsif playerSecondChoice == "Run" || playerSecondChoice == "run"
-                        runFromMonster(health, strength, potion, "zoneTwo")
+                        runFromMonster(health, strength, coins, potion, "zoneTwo")
                         break
                     else #If player doesn't choose neither run nor fight
                         puts "You can only fight or run..."
                     end
-                elsif playerChoice == "Right" || playerChoice == "right" #chose to go right
+                elsif playerChoice == "Down" || playerChoice == "down" #chose to go down to the dangeoun
                     puts "A Goblin is approaching you, he is in attack mode!"
                     puts "What do you do? Fight or Run?"
                     playerSecondChoice = gets.chomp
@@ -101,11 +101,12 @@ def partTwo(health, strength, coins, potion)
                         fightGoblin(health, strength, coins, potion)
                         break
                     elsif playerSecondChoice == "Run" || playerSecondChoice == "run"
-                        runFromMonster(health, strength, potion, "zoneTwo")
+                        runFromMonster(health, strength, coins, potion, "zoneTwo")
                         break
-                    else #If player doesn't choose neither run nor fight
-                        puts "You can only fight or run..."
                     end
+                elsif playerChoice == "Back" || playerChoice == "back" #If player doesn't choose neither run nor fight
+                    puts "You choose to go back to the previous path"
+                    partOne(health, strength, coins, potion)    
                 else #If player doesn't choose neither of the directions
                     puts "You chose the wrong path, try again!"
                 end                   
@@ -113,12 +114,12 @@ def partTwo(health, strength, coins, potion)
 end
 
 #This function is called when the story is still going during a fight, drinking potion etc...
-def keepGoing(zone)
+def keepGoing(health, strength, coins, potion, zone)
     case zone
     when "zoneOne"
-        partOne(health, classAttribute[:strength], inventory[:coins], potion)
+        partOne(health, strength, coins, potion)
     when "zoneTwo"
-        partTwo(health, classAttribute[:strength], inventory[:coins], potion)
+        partTwo(health, strength, coins, potion)
     when "zoneThree"
         pass
     when "zoneFour"
@@ -127,13 +128,12 @@ def keepGoing(zone)
 end
 
 #This function is called when the player dies
-def youDie(zone)
+def youDie(health, strength, coins, potion, zone)
     case zone
     when "zoneOne"
-        partOne(health, strength, inventory[:coins], potion)
+        partOne(health, strength, coins, potion)
     when "zoneTwo"
-        health -= 6
-        partTwo(health, strength, inventory[:coins], potion)
+        partTwo(health, strength, coins, potion)
     when "zoneThree"
         pass
     when "zoneFour"
@@ -142,7 +142,7 @@ def youDie(zone)
 end
 
 #This function is called after the end of the battle
-def drinkPotion(health, potion, zone)
+def drinkPotion(health, strength, coins, potion, zone)
     if potion > 0
         drink = false
         while (drink == false) do
@@ -152,26 +152,22 @@ def drinkPotion(health, potion, zone)
                 health += 4
                 potion -= 1
                 puts "Your health now is #{health} and you have #{potion} potion/s"
-                drink = true
-                case zone
-                when "zoneTwo"
-                    partTwo(health, classAttribute[:strength], inventory[:coins], potion)
-                when "zoneThree"
-                    pass
-                when "zoneFour"
-                    pass
-                end
+                keepGoing(health, strength, coins, potion, zone)
+                #drink = true
+                break
             elsif drinkChoice == "no" || drinkChoice == "NO"
                 puts "Ok, let's keep going with the adventure!"
-                drink = true
-                keepGoing(zone)
+                keepGoing(health, strength, coins, potion, zone)
+                #drink = true
+                break
             else
                 puts "Do you want to drink the potion?"
             end
+            drink = true
         end
     else
         puts "Sorry, but you don't have any potion...good luck!"
-        partOne(health, strength, inventory[:coins], potion)
+        keepGoing(health, strength, coins, potion, zone)
     end  
 end
 
@@ -186,6 +182,7 @@ end
 
 #This function is called when the player chooses to fight the Goblins!
 def fightGoblin(health, strength, coins, potion)
+    #fightAgain = false
     puts "You choose to fight, great choice! Let's see how you go!"
     while (true) do
         # throw a dice to check if the player catches the monster 1 out of 15
@@ -200,13 +197,13 @@ def fightGoblin(health, strength, coins, potion)
                 coins += 10
                 potion += 1
                 puts "Your health is: #{health}, you have #{coins} coins and #{potion} potion/s"
+                partTwo(health, strength, coins, potion)
             end
-            drinkPotion(health, potion, partTwo(health, strength, coins, potion))
         #if the dice is less than 9, the player will get damaged - the monster's damage
         else
             health -= 5
             puts "You missed the Goblin and the Goblin managed to hit you! your health is #{health}"
-            if potion > 0
+            if potion > 0 && health > 0
                 drink = false
                 while (drink == false) do
                     puts "Your health is: #{health}; would you like to drink the potion of health? Yes / No"
@@ -216,28 +213,31 @@ def fightGoblin(health, strength, coins, potion)
                         potion -= 1
                         puts "Your health now is #{health} and you have #{potion} potion/s"
                         drink = true
+                        break
                     else
                         puts "Ok, let's keep fighting then!"
                         drink = true
+                        break
                     end
                 end                
             end
-            if health <= 0
-                puts "I'm so sorry to tell you, but you are basically, how do I say...YOU ARE DEAD!!!"
-                puts "Would you like to try again? Yes / No"
-                playerFinish = gets.chomp
-                if playerFinish == "No" || playerFinish == "no"
-                    exitTheGame
-                else
-                    fightGoblin(health, strength, coins, potion)
+                if health <= 0
+                    puts "I'm so sorry to tell you, but you are basically, how do I say...YOU ARE DEAD!!!"
+                    puts "Would you like to try again? Yes / No"
+                    playerFinish = gets.chomp
+                    if playerFinish == "No" || playerFinish == "no"
+                        exitTheGame
+                    else
+                        health += 6
+                        partOne(health, strength, coins, potion)
+                    end
                 end
-            end
         end
     end
 end
 
 #This function is called when the player chooses to run!
-def runFromMonster(health, strength, potion, zone)
+def runFromMonster(health, strength, coins, potion, zone)
     puts "You choose to run?!?! really..."
     dice = (rand() * 20).to_i
     puts "The Monster is trying to attack you while you run! His attack is: #{dice}"
@@ -245,7 +245,6 @@ def runFromMonster(health, strength, potion, zone)
         health -= 5
         puts "The Monster was able to catch you while you were running, you get 5 point damages!"
         puts "Your health is: #{health}"
-        drinkPotion(health, potion, zone)
         if health <= 0
             puts "I'm so sorry to tell you, but you are basically, how do I say...YOU ARE DEAD!!!"
             puts "Would you like to try again? Yes / No"
@@ -253,12 +252,15 @@ def runFromMonster(health, strength, potion, zone)
             if playerFinish == "No" || playerFinish == "no"
                 exitTheGame
             else
+                health += 6
                 youDie(zone)
             end
+        else
+            drinkPotion(health, strength, coins, potion, zone)
         end
     else
         puts "However, you manage to run without receive any damages!"
-        keepGoing(zone)
+        partOne(health, strength, coins, potion)
     end
 end
 
@@ -277,4 +279,3 @@ if finish == "Yes" || finish == "yes"
 else
     exitTheGame
 end
-
