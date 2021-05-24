@@ -1,4 +1,8 @@
 #Welcome to the Fantasy Adventure!
+
+require ("tty-prompt")
+require ("colorize")
+
 class InvalidZeroError < StandardError
 end
 
@@ -14,7 +18,8 @@ Enemy = {Goblin: [healthEnemy=8, damage=5],
         }
 
 #The start of the game, choose the character name and the class
-puts "Welcome to the Fantasy Adventure!!!! Insert the name of your character:"
+puts "Welcome to the Fantasy Adventure!!!!".yellow.blink.bold
+puts "Insert the name of your character:".cyan.italic
 playerName = gets.chomp
 isClassRight = false
 while (isClassRight == false) do
@@ -43,7 +48,7 @@ def partOne(health, strength, coins, potion)
                 playerChoice = gets.chomp
                 if playerChoice == "Left" || playerChoice == "left"
                     puts "A Goblin is approaching you, he is in attack mode!"
-                    puts "What do you do? Fight or Run?"
+                    puts "What do you do? Fight or Run?".cyan
                     playerSecondChoice = gets.chomp
                     if playerSecondChoice == "Fight" || playerSecondChoice == "fight"
                         fightGoblin(health, strength, coins, potion)
@@ -52,7 +57,7 @@ def partOne(health, strength, coins, potion)
                         runFromMonster(health, strength, coins, potion, "zoneOne")
                         break
                     else #If player doesn't choose neither run nor fight
-                        puts "You can only fight or run..."
+                        puts "You can only fight or run...".light_red
                     end
                 elsif playerChoice == "Right" || playerChoice == "right" #chose to go right
                     puts "A Goblin is approaching you, he is in attack mode!"
@@ -65,10 +70,10 @@ def partOne(health, strength, coins, potion)
                         runFromMonster(health, strength, coins, potion, "zoneOne")
                         break
                     else #If player doesn't choose neither run nor fight
-                        puts "You can only fight or run..."
+                        puts "You can only fight or run...".light_red
                     end
                 else #If player doesn't choose neither of the directions
-                    puts "You chose the wrong path, try again!"
+                    puts "You chose the wrong path, try again!".light_red
                 end                   
     end
 end
@@ -82,7 +87,7 @@ def partTwo(health, strength, coins, potion)
                 playerChoice = gets.chomp
                 if playerChoice == "Up" || playerChoice == "up"
                     puts "A Goblin is approaching you, he is in attack mode!"
-                    puts "What do you do? Fight or Run?"
+                    puts "What do you do? Fight or Run?".cyan
                     playerSecondChoice = gets.chomp
                     if playerSecondChoice == "Fight" || playerSecondChoice == "fight"
                         fightGoblin(health, strength, coins, potion)
@@ -91,7 +96,7 @@ def partTwo(health, strength, coins, potion)
                         runFromMonster(health, strength, coins, potion, "zoneTwo")
                         break
                     else #If player doesn't choose neither run nor fight
-                        puts "You can only fight or run..."
+                        puts "You can only fight or run...".light_red
                     end
                 elsif playerChoice == "Down" || playerChoice == "down" #chose to go down to the dangeoun
                     puts "A Goblin is approaching you, he is in attack mode!"
@@ -105,10 +110,10 @@ def partTwo(health, strength, coins, potion)
                         break
                     end
                 elsif playerChoice == "Back" || playerChoice == "back" #If player doesn't choose neither run nor fight
-                    puts "You choose to go back to the previous path"
+                    puts "You choose to go back to the previous path".light_red
                     partOne(health, strength, coins, potion)    
                 else #If player doesn't choose neither of the directions
-                    puts "You chose the wrong path, try again!"
+                    puts "You chose the wrong path, try again!".light_red
                 end                   
     end
 end
@@ -173,7 +178,7 @@ end
 
 #This function is called when the player wants to exit the adventure
 def exitTheGame
-    puts "Ok, Thank you for coming, have a nice day!I'm going to make a coffee..."
+    puts "Ok, Thank you for coming, have a nice day!I'm going to make a coffee...".green
     begin
         exit!
     rescue SystemExit
@@ -193,7 +198,7 @@ def fightGoblin(health, strength, coins, potion)
             Enemy[:Goblin][0] -= strength
             puts "You attacked the Goblin sucessfully and damage #{strength} to him!"
             if Enemy[:Goblin][0] <= 0 #the monster dies if reaches 0 or less
-                puts "You survive the battle with the Goblin!. Here is a potion of health +4 and 10 Gold coins!!"
+                puts "You survive the battle with the Goblin!. Here is a potion of health +4 and 10 Gold coins!!".green
                 coins += 10
                 potion += 1
                 puts "Your health is: #{health}, you have #{coins} coins and #{potion} potion/s"
@@ -202,7 +207,7 @@ def fightGoblin(health, strength, coins, potion)
         #if the dice is less than 9, the player will get damaged - the monster's damage
         else
             health -= 5
-            puts "You missed the Goblin and the Goblin managed to hit you! your health is #{health}"
+            puts "You missed the Goblin and the Goblin managed to hit you! your health is #{health}".light_red
             if potion > 0 && health > 0
                 drink = false
                 while (drink == false) do
@@ -222,13 +227,13 @@ def fightGoblin(health, strength, coins, potion)
                 end                
             end
                 if health <= 0
-                    puts "I'm so sorry to tell you, but you are basically, how do I say...YOU ARE DEAD!!!"
+                    puts "I'm so sorry to tell you, but you are basically, how do I say...YOU ARE DEAD!!!".red
                     puts "Would you like to try again? Yes / No"
                     playerFinish = gets.chomp
                     if playerFinish == "No" || playerFinish == "no"
                         exitTheGame
                     else
-                        health += 6
+                        health += 10
                         partOne(health, strength, coins, potion)
                     end
                 end
@@ -238,21 +243,21 @@ end
 
 #This function is called when the player chooses to run!
 def runFromMonster(health, strength, coins, potion, zone)
-    puts "You choose to run?!?! really..."
+    puts "You choose to run?!?! really...".magenta
     dice = (rand() * 20).to_i
     puts "The Monster is trying to attack you while you run! His attack is: #{dice}"
     if dice >= strength
         health -= 5
-        puts "The Monster was able to catch you while you were running, you get 5 point damages!"
+        puts "The Monster was able to catch you while you were running, you get 5 point damages!".light_red
         puts "Your health is: #{health}"
         if health <= 0
-            puts "I'm so sorry to tell you, but you are basically, how do I say...YOU ARE DEAD!!!"
+            puts "I'm so sorry to tell you, but you are basically, how do I say...YOU ARE DEAD!!!".red
             puts "Would you like to try again? Yes / No"
             playerFinish = gets.chomp
             if playerFinish == "No" || playerFinish == "no"
                 exitTheGame
             else
-                health += 6
+                health += 10
                 youDie(zone)
             end
         else
@@ -271,7 +276,7 @@ puts "and asked as per your clothing, it seems like you are adventur seeking a n
 puts "You noted in agreement and he tells you that some villagers have been kidnapped by a black Elf called Viscid Snake,"
 puts "who lives at the old tower just outside of the village."
             
-puts "Will you help us to save our villagers?(Yes / No)"
+puts "Will you help us to save our villagers?(Yes / No)".light_blue
 finish = gets.chomp
 if finish == "Yes" || finish == "yes"
     puts "You accepted the request and start to walk to the tower to save the villagers"

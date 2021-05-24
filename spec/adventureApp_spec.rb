@@ -1,4 +1,5 @@
 # require "tty-prompt"
+# require gem "colorize", "~> 0.8.1"
 # require "tty-spinner"
 # require "artii"
 
