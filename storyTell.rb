@@ -1,6 +1,6 @@
 #Welcome to the Fantasy Adventure!
 
-require ("tty-prompt")
+#require ("tty-prompt")
 require ("colorize")
 
 class InvalidZeroError < StandardError

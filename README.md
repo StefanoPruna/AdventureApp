@@ -1,6 +1,7 @@
-# Markdown for my Adventure App in Ruby in the terminal
+# Markdown for my Adventure App in Ruby in the terminal 
 
 ### WELCOME TO THE FANTASY ADVENTURE!
+### A RPG TEXT GAME
 
 #### Dependencies:
 - Ruby
