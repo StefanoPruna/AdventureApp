@@ -690,6 +690,6 @@ puts "You are at the local tavern at Basian Angeles, in the valley of Gloomhaven
             exitTheGame
             finished = true
         else
-            puts "I know it can be a big decision, but you can save the them, we believe in you!".green
+            puts "I know it can be a big decision, but you can save them, we believe in you!".green
         end
     end
