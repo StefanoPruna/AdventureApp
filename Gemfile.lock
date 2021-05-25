@@ -8,6 +8,8 @@ PLATFORMS
 
 DEPENDENCIES
   colorize (~> 0.8.1)
+  rainbow >= 3.0.0, ~> 3.0
+  rmagick >= 2.16.0, ~> 2.16  
 
 BUNDLED WITH
    2.2.15

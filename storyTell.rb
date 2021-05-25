@@ -1,7 +1,11 @@
 #Welcome to the Fantasy Adventure! a RPG text game
 
 #require ("tty-prompt")
+#require ("ascii-image")
 require ("colorize")
+
+# def initialize(uri, console_width = 80) ⇒ ASCII_Image
+# end
 
 class InvalidZeroError < StandardError
 end
@@ -242,7 +246,7 @@ def partFour(health, strength, coins, potion)
 end
 
 #This is the final part
-def partFive(health, strength, coins, potion, zone)
+def partFive(health, strength, coins, potion)
     zone = "zoneFive"   
     #drinkPotion(health, strength, coins, potion, "zoneTwo") 
     system "clear"
@@ -334,6 +338,8 @@ end
 #This function is called when the player chooses to fight the Goblins!
 def fightGoblin(health, strength, coins, potion, zone)
     fightAgain = false
+    #ascii = ASCII_Image.new("Goblin.jpg")
+    #ascii.build(80)
     puts "You choose to fight, great choice! Let's see how you go!"
     while (Enemy[:Goblin][0] > 0 || health > 0) do
         # throw a dice to check if the player catches the monster 1 out of 15
