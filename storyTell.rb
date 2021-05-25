@@ -254,6 +254,7 @@ def partFive(health, strength, coins, potion)
     puts "Before you stands Viscid Snake, the Black Elf and he is laughing at you:"
     puts "You will die!!!".red.bold.italic
     puts "Are you ready for the fight? Yes, Let's finish it! / No, let's go back for a moment..."
+    playerChoice = gets.chomp
     while (true) do
         if playerChoice == "Fight" || playerChoice == "fight"
             fightBoss(health, strength, coins, potion, zone)
