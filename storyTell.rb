@@ -414,7 +414,7 @@ def fightSkeleton(health, strength, coins, potion, zone)
             end
         #if the dice is less than 9, the player will get damaged - the monster's damage
         else
-            health -= 4
+            health -= Enemy[:Skeleton][1] #4
             puts "You missed the Skeleton and the Skeleton managed to hit you! your health is #{health}".light_red
             if potion > 0 && health > 0
                 drink = false
@@ -470,7 +470,7 @@ def fightChest(health, strength, coins, potion, zone)
             end
         #if the dice is less than 9, the player will get damaged - the monster's damage
         else
-            health -= 4
+            health -= Enemy[:CosmicChest][1] #4
             puts "You missed the Cosmic Chest and the Cosmic Chest managed to hit you! your health is #{health}".light_red
             if potion > 0 && health > 0
                 drink = false
@@ -527,7 +527,7 @@ def fightOrc(health, strength, coins, potion, zone)
             end
         #if the dice is less than 9, the player will get damaged - the monster's damage
         else
-            health -= 6
+            health -= Enemy[:Orc][1] #6
             puts "You missed the Orc and the Orc managed to hit you! your health is #{health}".light_red
             if potion > 0 && health > 0
                 drink = false
@@ -574,9 +574,9 @@ def fightBoss(health, strength, coins, potion, zone)
         puts "Your attack is: #{dice}"
         #if the random number is equal or higher than 9, then the goblin reduced his health equal the strength of the player
         if dice >= 9
-            Enemy[:Goblin][0] -= strength
+            Enemy[:ViscidSnake][0] -= strength
             puts "You attacked the Goblin sucessfully and damage #{strength} to him!"
-            if Enemy[:Goblin][0] <= 0 #the monster dies if reaches 0 or less
+            if Enemy[:ViscidSnake][0] <= 0 #the monster dies if reaches 0 or less
                 puts "You survive the battle with the Goblin!. Here is a potion of health +4 and 10 Gold coins!!".green
                 coins += 10
                 potion += 1
@@ -586,7 +586,7 @@ def fightBoss(health, strength, coins, potion, zone)
             end
         #if the dice is less than 9, the player will get damaged - the monster's damage
         else
-            health -= 5
+            health -= Enemy[:ViscidSnake][1] #5
             puts "You missed the Goblin and the Goblin managed to hit you! your health is #{health}".light_red
             if potion > 0 && health > 0
                 drink = false
