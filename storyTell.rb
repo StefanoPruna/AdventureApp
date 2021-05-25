@@ -1,4 +1,4 @@
-#Welcome to the Fantasy Adventure!
+#Welcome to the Fantasy Adventure! a RPG text game
 
 #require ("tty-prompt")
 require ("colorize")
