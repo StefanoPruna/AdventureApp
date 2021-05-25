@@ -309,7 +309,7 @@ def drinkPotion(health, strength, coins, potion, zone)
                 puts "Your health now is #{health} and you have #{potion} potion/s"
                 keepGoing(health, strength, coins, potion, zone)
                 drink = true
-                break
+                #break
             elsif drinkChoice == "no" || drinkChoice == "NO"
                 puts "Ok, let's keep going with the adventure!"
                 keepGoing(health, strength, coins, potion, zone)
@@ -358,7 +358,7 @@ def fightGoblin(health, strength, coins, potion, zone)
             end
         #if the dice is less than 9, the player will get damaged - the monster's damage
         else
-            health -= 5
+            health -= Enemy[:Goblin][1] #5
             puts "You missed the Goblin and the Goblin managed to hit you! your health is #{health}".light_red
             if potion > 0 && health > 0
                 drink = false
